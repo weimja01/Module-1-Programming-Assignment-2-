@@ -1,6 +1,5 @@
+
 import java.util.Scanner;
-
-
 
 public class CCNumber_Validation {
 
@@ -8,8 +7,14 @@ public static boolean isValid(long number){
     int size = getSize(number);
     if (size < 13 || size > 16){
         return false;
-    }else
-    return true;
+
+    }
+    if (!prefixMatched(number, 4) && !prefixMatched(number, 5) && 
+            !prefixMatched(number, 37) && !prefixMatched(number, 6)) {
+            return false;
+        }
+        int sum = sumOfDoubleEvenPlace(number) + sumOfOddPlace(number);
+        return sum % 10 == 0;
 }
 
 public static int sumOfDoubleEvenPlace(long number){
@@ -49,7 +54,9 @@ public static int sumOfOddPlace(long number){
 }
 
 public static boolean prefixMatched(long number, int d){
-    return true;
+    int prefixSize = getSize(d);
+    long prefix = getPrefix(number, prefixSize);
+    return prefix == d;
 
 }
 
@@ -59,13 +66,18 @@ public static int getSize(long d){
 }
 
 public static long getPrefix(long number, int k){
-    long prefix = 0;
-    return prefix;
+    String numString = String.valueOf(number);
+    if(numString.length() < k){
+        return number;
+    }else{
+        String prefixString = numString.substring(0 , k);
+        return Long.parseLong(prefixString);
+    }
 }
 
 
 
-    public static void main(String[] args){
+public static void main(String[] args){
         Scanner input = new Scanner(System.in);
         System.out.println("Enter a credit card number as a long interger: ");
         long number = input.nextLong();
